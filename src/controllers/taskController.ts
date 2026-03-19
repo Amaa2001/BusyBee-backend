@@ -1,14 +1,14 @@
-import { Request, Response } from "express";
-import Task from "../models/task";
+import { Request, Response } from "express"; 
+import Task from "../models/task"; 
 
 // GET /api/tasks - Get all tasks for the logged-in user
-export const getTasks = async (req: Request, res: Response) => {
+export const getTasks = async (req: Request, res: Response) => { // asykron controller funktion som hämtar tasks
   try {
-    const userId = (req as any).user?.id;
+    const userId = (req as any).user?.id; // user id hämtas 
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
-    const tasks = await Task.find({ user: userId });
-    res.json(tasks);
+    const tasks = await Task.find({ user: userId }); //databas fråga
+    res.json(tasks); //skickas alla tasks tillbaka till klienten i JSON format
   } catch (err) {
     console.error("Error fetching tasks:", err);
     res.status(500).json({
@@ -39,12 +39,12 @@ export const addTask = async (req: Request, res: Response) => {
 };
 
 // PUT /api/tasks/:id/toggle - Toggle completed status
-export const toggleTask = async (req: Request, res: Response) => {
+export const toggleTask = async (req: Request, res: Response) => { 
   try {
     const userId = (req as any).user?.id;
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
-    const { id } = req.params;
+    const { id } = req.params; 
     const task = await Task.findOne({ _id: id, user: userId });
     if (!task) return res.status(404).json({ message: "Task not found" });
 

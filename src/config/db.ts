@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"; 
 
 const connectDB = async () => {
   try {
@@ -6,11 +6,12 @@ const connectDB = async () => {
       process.env.MONGO_URI as string
     );
 
-    console.log("MongoDB Connected");
-  } catch (error) {
+    console.log("MongoDB Connected"); // om anslutningen lyckas loggas detta i terminalen
+  } catch (error) { //catch error
     console.error("MongoDB connection failed");
     process.exit(1);
   }
 };
 
 export default connectDB;
+

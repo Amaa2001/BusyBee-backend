@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
-const taskSchema = new mongoose.Schema(
+const taskSchema = new mongoose.Schema(  
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId, // lagrar MongoDB is för en änvandare
       ref: "User",
-      required: true
+      required: true // varje task måste tillhöra en användare
     },
     title: {
       type: String,
-      required: true
+      required: true // task måste ha en title
     },
     completed: {
       type: Boolean,

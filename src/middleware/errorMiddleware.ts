@@ -3,3 +3,4 @@ module.exports = (err: Error, req: any, res: any, next: any) => {
    message: err.message
  });
 };
+

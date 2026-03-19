@@ -1,19 +1,19 @@
 import { Router, Request, Response } from "express";
-import Task from "../models/task";
-import { protect } from "../middleware/authMiddleware"; // se till att din middleware exporteras som 'protect'
+import Task from "../models/task"; 
+import { protect } from "../middleware/authMiddleware"; 
 
 const router = Router();
 
-/* GET ALL TASKS */
-router.get("/", protect, async (req: Request, res: Response) => {
+//  Hämtar tasks för den inloggade användaren 
+router.get("/", protect, async (req: Request, res: Response) => { 
   try {
-    const userId = (req as any).user?.id;
-    if (!userId) return res.status(401).json({ message: "Unauthorized" });
+    const userId = (req as any).user?.id; 
+    if (!userId) return res.status(401).json({ message: "Unauthorized" }); 
 
-    const tasks = await Task.find({ user: userId }).sort({ createdAt: -1 });
+    const tasks = await Task.find({ user: userId }).sort({ createdAt: -1 }); 
     res.json(tasks);
-  } catch (err) {
-    console.error("Error fetching tasks:", err);
+  } catch (err) { 
+    console.error("Error fetching tasks:", err); 
     res.status(500).json({
       message: "Failed to fetch tasks",
       details: err instanceof Error ? err.message : err
@@ -21,7 +21,7 @@ router.get("/", protect, async (req: Request, res: Response) => {
   }
 });
 
-/* CREATE TASK */
+// Skapar ny task för den inloggade användaren
 router.post("/", protect, async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user?.id;
@@ -41,7 +41,7 @@ router.post("/", protect, async (req: Request, res: Response) => {
   }
 });
 
-/* TOGGLE TASK */
+// Toggle completed status på en task
 router.put("/:id/toggle", protect, async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user?.id;
@@ -63,7 +63,7 @@ router.put("/:id/toggle", protect, async (req: Request, res: Response) => {
   }
 });
 
-/* DELETE TASK */
+// Radera task 
 router.delete("/:id", protect, async (req: Request, res: Response) => {
   try {
     const userId = (req as any).user?.id;
@@ -84,3 +84,4 @@ router.delete("/:id", protect, async (req: Request, res: Response) => {
 });
 
 export default router;
+
