@@ -1,7 +1,6 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express"; // detta importerar nödvändiga typer från Express för att definiera middleware-funktionen.  Request, Response och NextFunction används för att typa parametrarna i middleware-funktionen. Request representerar HTTP-förfrågan, Response representerar HTTP-svaret, och NextFunction är en funktion som används för att gå vidare till nästa middleware eller route handler i kedjan.
 import jwt from "jsonwebtoken";
 
-// Middleware som skyddar routes
 // middleware funktion
 export const protect = (req: any, res: Response, next: NextFunction) => {
   let token; // JWT token variabel som skickas från klienten i header
@@ -16,7 +15,7 @@ export const protect = (req: any, res: Response, next: NextFunction) => {
       // Sätt req.user korrekt
       req.user = { id: decoded.id }; // spara user id i requesten
       next();
-    } catch (err) { 
+    } catch (err) {  
       console.error("JWT error:", err);
       return res.status(401).json({ message: "Not authorized, token failed" });
     }
@@ -24,3 +23,5 @@ export const protect = (req: any, res: Response, next: NextFunction) => {
     return res.status(401).json({ message: "No token provided" });
   }
 };
+
+// "" som körs mellan att en request tas emot av servern och att den når route handlern. 

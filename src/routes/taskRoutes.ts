@@ -1,11 +1,11 @@
 import { Router, Request, Response } from "express";
 import Task from "../models/task"; 
-import { protect } from "../middleware/authMiddleware"; 
+import { protect } from "../middleware/authMiddleware"; // importerar protect middleware som används för att skydda routes så att bara autentiserade användare kan komma åt dem
 
 const router = Router();
 
 //  Hämtar tasks för den inloggade användaren 
-router.get("/", protect, async (req: Request, res: Response) => { 
+router.get("/", protect, async (req: Request, res: Response) => { // denna rad definierar en GET route på /api/tasks som är skyddad av protect middleware. När en request görs till denna endpoint, kommer protect middleware först att köras för att verifiera JWT token och extrahera användarens ID. Om token är giltig, kommer route handlern att köras, där den hämtar alla tasks som tillhör den inloggade användaren från databasen och skickar tillbaka dem i JSON format. Om token saknas eller är ogiltig, kommer protect middleware att returnera ett 401 Unauthorized svar.
   try {
     const userId = (req as any).user?.id; 
     if (!userId) return res.status(401).json({ message: "Unauthorized" }); 
@@ -85,3 +85,4 @@ router.delete("/:id", protect, async (req: Request, res: Response) => {
 
 export default router;
 
+// "" innehåller alla routes för tasks, alla endpoints för att hantera tasks

@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"; 
 
-const taskSchema = new mongoose.Schema(  
+const taskSchema = new mongoose.Schema(  // definieras taskschema, bestämmer vilka fält som finns, vilken typ de är
   {
     user: {
       type: mongoose.Schema.Types.ObjectId, // lagrar MongoDB is för en änvandare
@@ -20,3 +20,4 @@ const taskSchema = new mongoose.Schema(
 );
 
 export default mongoose.model("Task", taskSchema);
+

@@ -1,15 +1,17 @@
-import jwt from "jsonwebtoken"; 
+import jwt from "jsonwebtoken"; // "" jsonwebtoken biblioteket som används för att skapa och verifiera JWT tokens
 
-export const generateAccessToken = (userId: string) => {  
-  return jwt.sign({ userId }, process.env.JWT_SECRET as string, { 
+export const generateAccessToken = (userId: string) => {  // har skapas en funktion ( genetateAccessToken)
+  return jwt.sign({ userId }, process.env.JWT_SECRET as string, { // har skapas själva JWT token (payload, signature, secreet key)
     expiresIn: "15m"
   });
 };
 
-//denna funktion generarar en refresh token
-export const generateRefreshToken = (userId: string) => {
-  return jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET as string, {
+// generarar en refresh token
+export const generateRefreshToken = (userId: string) => { 
+  return jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET as string, { 
     expiresIn: "7d"
   });
 };
+
+
 

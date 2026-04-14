@@ -4,3 +4,5 @@ module.exports = (err: Error, req: any, res: any, next: any) => {
  });
 };
 
+// den fångar fel som skickas med next(err) i controller och skickar tillbaka 500 status med fel medelandet i JSON format.
+// Genom att använda denna middleware i server.ts

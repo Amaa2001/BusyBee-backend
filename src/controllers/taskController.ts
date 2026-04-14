@@ -1,14 +1,14 @@
-import { Request, Response } from "express"; 
+import { Request, Response } from "express"; // Importerar Request och Response typerna från Express 
 import Task from "../models/task"; 
 
 // GET /api/tasks - Get all tasks for the logged-in user
-export const getTasks = async (req: Request, res: Response) => { // asykron controller funktion som hämtar tasks
+export const getTasks = async (req: Request, res: Response) => { // asykron controller funktion som hämtar tasks (http req och res som parametrar)
   try {
-    const userId = (req as any).user?.id; // user id hämtas 
+    const userId = (req as any).user?.id; 
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
-    const tasks = await Task.find({ user: userId }); //databas fråga
-    res.json(tasks); //skickas alla tasks tillbaka till klienten i JSON format
+    const tasks = await Task.find({ user: userId }); // databas fråga om alla tasks
+    res.json(tasks);
   } catch (err) {
     console.error("Error fetching tasks:", err);
     res.status(500).json({
@@ -24,7 +24,7 @@ export const addTask = async (req: Request, res: Response) => {
     const userId = (req as any).user?.id;
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
-    const { title } = req.body;
+    const { title } = req.body; 
     if (!title) return res.status(400).json({ message: "Title is required" });
 
     const task = await Task.create({ title, user: userId, completed: false });
@@ -38,19 +38,19 @@ export const addTask = async (req: Request, res: Response) => {
   }
 };
 
-// PUT /api/tasks/:id/toggle - Toggle completed status
-export const toggleTask = async (req: Request, res: Response) => { 
+// PUT /api/tasks/:id/toggle - Toggle completed status 
+export const toggleTask = async (req: Request, res: Response) => { // ändra status på en task
   try {
     const userId = (req as any).user?.id;
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
-    const { id } = req.params; 
-    const task = await Task.findOne({ _id: id, user: userId });
+    const { id } = req.params; // '' objekt med parametrar som skickas från url:en, i det här fallet task id
+    const task = await Task.findOne({ _id: id, user: userId }); // databas fråga som letar efter en task med det specifika id:t och som tillhör den inloggade användaren. 
     if (!task) return res.status(404).json({ message: "Task not found" });
 
     task.completed = !task.completed;
     await task.save();
-    res.json(task);
+    res.json(task); // skickar tillbaka den uppdaterade tasken i JSON format
   } catch (err) {
     console.error("Error toggling task:", err);
     res.status(500).json({
@@ -66,7 +66,7 @@ export const deleteTask = async (req: Request, res: Response) => {
     const userId = (req as any).user?.id;
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
-    const { id } = req.params;
+    const { id } = req.params; // '' objekt med parametrar som skickas från url:en, i det här fallet task id
     const task = await Task.findOne({ _id: id, user: userId });
     if (!task) return res.status(404).json({ message: "Task not found" });
 
