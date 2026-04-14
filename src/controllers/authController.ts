@@ -46,7 +46,7 @@ export const register = async (req: Request, res: Response) => {
     res.status(201).json({
       message: "User created",
       token: generateAccessToken(user.id),
-      refreshToken: generateRefreshToken(user.id) // ✅ NEW
+      refreshToken: generateRefreshToken(user.id) 
     });
 
   } catch (error) {
@@ -79,7 +79,7 @@ export const login = async (req: Request, res: Response) => {
 
     res.json({
       token: generateAccessToken(user.id),
-      refreshToken: generateRefreshToken(user.id) // ✅ NEW
+      refreshToken: generateRefreshToken(user.id) 
     });
 
   } catch (error) {
