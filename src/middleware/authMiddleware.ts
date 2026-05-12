@@ -1,27 +1,30 @@
-import { Request, Response, NextFunction } from "express"; // detta importerar nödvändiga typer från Express för att definiera middleware-funktionen.  Request, Response och NextFunction används för att typa parametrarna i middleware-funktionen. Request representerar HTTP-förfrågan, Response representerar HTTP-svaret, och NextFunction är en funktion som används för att gå vidare till nästa middleware eller route handler i kedjan.
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-// middleware funktion
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET is missing in environment variables");
+}
+
 export const protect = (req: any, res: Response, next: NextFunction) => {
-  let token; // JWT token variabel som skickas från klienten i header
+  let token;
 
-  // Kolla Authorization header
-  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
-    token = req.headers.authorization.split(" ")[1]; //hämtar token
+  if (
+    req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    token = req.headers.authorization.split(" ")[1];
 
-    try { // try-catch block för att hantera eventuella fel som kan upp
-      const decoded: any = jwt.verify(token, process.env.JWT_SECRET || "secretkey"); // JWT verifiering. Kontrollerar att den är äkta, inte expired.
+    try {
+      const decoded: any = jwt.verify(token, process.env.JWT_SECRET as string
+      );
 
-      // Sätt req.user korrekt
-      req.user = { id: decoded.id }; // spara user id i requesten
+      req.user = { id: decoded.id };
       next();
-    } catch (err) {  
+    } catch (err) {
       console.error("JWT error:", err);
-      return res.status(401).json({ message: "Not authorized, token failed" });
+      return res.status(401).json({ message: "Not authorized, token failed",
+      });
     }
   } else {
-    return res.status(401).json({ message: "No token provided" });
+    return res.status(401).json({ message: "No token provided",
+    });
   }
 };
-
-// "" som körs mellan att en request tas emot av servern och att den når route handlern. 
